@@ -1,15 +1,13 @@
 import React from 'react';
-import CalendarDates from 'calendar-dates';
+import { IsNullOrEmpty } from '../app/Utilities';
 
 export interface ICalendarProps { }
 
 export interface ICalendarState {
 	readonly Date: string | null;
-	readonly Dates: IDate[];
 	readonly Event: string | null;
 	readonly Events: IEvent[];
 }
-const calendarDates = new CalendarDates();
 
 export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState> {
 	constructor(props: ICalendarProps) {
@@ -17,24 +15,29 @@ export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState
 
 		this.state = {
 			Date: null,
-			Dates: [],
 			Event: null,
 			Events: []
 		};
 	}
 	async componentDidMount() {
-		const dates = await this.GetCurrentMonth();
-		this.setState({ Dates: dates });
 	}
 
 	AddEvent = () => {
-
+		const newEvent = {
+			Id: this.state.Events.length + 1,
+			Date: this.state.Date!,
+			Event: this.state.Event!
+		};
+		this.setState({ Events: [...this.state.Events, newEvent] });
 	}
-	GetCurrentMonth = async () => {
-		console.log(new Date());
-		const dates = await calendarDates.getDates(new Date());
-		console.log(dates);
-		return dates;
+	UpdateEvent = (id: number) => {
+		const eventIds = this.state.Events.map(x => x.Id);
+		const eventIndex = eventIds.indexOf(id);
+		const newEvents = this.state.Events.slice();
+	}
+	RemoveEvent = (id: number) => {
+		const updatedEvents = this.state.Events.filter(x => x.Id !== id);
+		this.setState({ Events: updatedEvents });
 	}
 	HandleDiscardEntry = () => {
 		this.setState({
@@ -42,11 +45,9 @@ export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState
 			Event: ''
 		});
 	}
-	IsNullOrEmpty(text: string | null) {
-		return text == null || text === '' || text.replace(/ /g, '').length === 0;
-	}
+
 	get IsAddEventButtonDisabled() {
-		return this.IsNullOrEmpty(this.state.Date) || this.IsNullOrEmpty(this.state.Event);
+		return IsNullOrEmpty(this.state.Date) || IsNullOrEmpty(this.state.Event);
 	}
 	render() {
 		return (
@@ -73,7 +74,6 @@ export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState
 				</div>
 				{this.state.Events.map(x =>
 					<div>
-						<span>{x.Date.iso}</span>
 						<span>{x.Event}</span>
 					</div>
 				)}

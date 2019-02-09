@@ -5,7 +5,6 @@ import { Calendar } from './Calendar';
 export interface IAppProps {}
 
 export interface IAppState {
-	readonly Vehicle: IVehicle;
 }
 
 class App extends React.PureComponent<IAppProps, IAppState> {
