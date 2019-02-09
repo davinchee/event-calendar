@@ -1,3 +1,41 @@
+body {
+    background-color: #202124;
+    color: #15364d;
+}
+h1, h3 {
+    color: #292727;
+}
 .pointer {
     cursor: pointer;
+}
+.event-calendar-container {
+    min-height: 80vh;
+    border-radius: 2px;
+    background-color: white;
+}
+.events-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.events-subcontainer {
+    width: 100%;
+}
+.item-height {
+    min-height: 40px;
+}
+.primary-btn {
+    background-color: #1a73e8;
+    color: white;
+}
+.secondary-btn {
+    background-color: #c7c5c4
+}
+.action-icons {
+    opacity: 0.7;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.action-icons:hover {
+    opacity: 1;
 }
