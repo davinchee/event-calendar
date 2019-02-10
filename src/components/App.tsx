@@ -2,12 +2,7 @@ import React from 'react';
 import '../styles/index.css';
 import { Calendar } from './Calendar';
 
-export interface IAppProps {}
-
-export interface IAppState {
-}
-
-class App extends React.PureComponent<IAppProps, IAppState> {
+class App extends React.PureComponent {
 	render() {
 		return (
 			<div className='row d-flex flex-column w-100 align-items-center m-0'>

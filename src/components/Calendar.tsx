@@ -5,16 +5,14 @@ import { IsNullOrEmpty } from '../app/Utilities';
 import { EventDetails } from './Event';
 import { EventModel } from '../models/EventModel';
 
-export interface ICalendarProps { }
-
 export interface ICalendarState {
 	readonly Date: string | null;
 	readonly Description: string | null;
 	readonly Events: IEvent[];
 }
 
-export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState> {
-	constructor(props: ICalendarProps) {
+export class Calendar extends React.PureComponent<{}, ICalendarState> {
+	constructor(props: {}) {
 		super(props);
 
 		this.state = {
@@ -22,6 +20,21 @@ export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState
 			Description: null,
 			Events: []
 		};
+	}
+
+	get IsAddEventButtonDisabled() {
+		return this.state.Date == null
+			|| moment(this.state.Date).isValid() === false
+			|| IsNullOrEmpty(this.state.Description);
+	}
+	get EventsSortedByAscendingDate() {
+		return this.state.Events
+			.sort((a, b) => moment(a.Date).isBefore(moment(b.Date)) ? -1 : 1)
+			.map(x => new EventModel(x));
+	}
+	get GroupedEvents() {
+		const eventsGroupedByMonthAndYear = groupBy(this.EventsSortedByAscendingDate, x => x.Month + ',' + x.Year);
+		return Object.values(eventsGroupedByMonthAndYear);
 	}
 
 	AddEvent = () => {
@@ -53,28 +66,15 @@ export class Calendar extends React.PureComponent<ICalendarProps, ICalendarState
 		const eventIndex = this.state.Events
 			.map(x => x.Id)
 			.indexOf(id);
+
 		const updatedEvents = this.state.Events.slice();
 		updatedEvents[eventIndex] = {
 			Id: id,
 			Description: description,
 			Date: moment(date).format(('L'))
 		};
-		this.setState({ Events: updatedEvents });
-	}
 
-	get IsAddEventButtonDisabled() {
-		return this.state.Date == null
-			|| moment(this.state.Date).isValid() === false
-			|| IsNullOrEmpty(this.state.Description);
-	}
-	get EventsSortedByAscendingDate() {
-		return this.state.Events
-			.sort((a, b) => moment(a.Date).isBefore(moment(b.Date)) ? -1 : 1)
-			.map(x => new EventModel(x));
-	}
-	get GroupedEvents() {
-		const eventsGroupedByMonthAndYear = groupBy(this.EventsSortedByAscendingDate, x => x.Month + ',' + x.Year);
-		return Object.values(eventsGroupedByMonthAndYear);
+		this.setState({ Events: updatedEvents });
 	}
 
 	render() {

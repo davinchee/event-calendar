@@ -26,7 +26,7 @@ export class EventDetails extends React.PureComponent<IEventDetailsProps, IEvent
 	}
 
 	get IsEditEventButtonDisabled() {
-		return IsNullOrEmpty(this.state.Date)
+		return this.state.Date == null
 			|| moment(this.state.Date).isValid() === false
 			|| IsNullOrEmpty(this.state.Description);
 	}
