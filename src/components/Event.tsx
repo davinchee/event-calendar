@@ -25,8 +25,10 @@ export class EventDetails extends React.PureComponent<IEventDetailsProps, IEvent
 		};
 	}
 
-	get IsAddEventButtonDisabled() {
-		return IsNullOrEmpty(this.state.Date) || moment(this.state.Date).isValid() === false || IsNullOrEmpty(this.state.Description);
+	get IsEditEventButtonDisabled() {
+		return IsNullOrEmpty(this.state.Date)
+			|| moment(this.state.Date).isValid() === false
+			|| IsNullOrEmpty(this.state.Description);
 	}
 
 	HandleSelectDate = (date: any) => {
@@ -40,50 +42,56 @@ export class EventDetails extends React.PureComponent<IEventDetailsProps, IEvent
 	render() {
 		return (
 			<div>
-					<div className='d-flex justify-content-between'>
-						<div className='d-flex flex-column justify-content-center'>
-							{this.state.IsEditingEvent === false &&
-								<>
-									<div className='d-flex align-items-center mb-3 item-height'><span className='mr-2 font-weight-bold'>Date:</span> {this.props.Event.Date}</div>
-									<div className='d-flex align-items-center item-height'><span className='mr-2 font-weight-bold'>Description:</span> {this.props.Event.Description}</div>
-								</>
-							}
-							{this.state.IsEditingEvent === true &&
-								<>
-									<div className='d-flex align-items-center form-group mb-3 item-height'>
-										<label className='mb-0'>Date:</label>
-										<input className='form-control ml-3' type='date' value={moment(this.state.Date).format('YYYY-MM-DD')} onChange={e => this.HandleSelectDate(e.target.value)} />
-									</div>
-									<div className='d-flex align-items-center form-group item-height'>
-										<label className='mb-0'>Description:</label>
-										<input className='form-control ml-3' type='text' value={this.state.Description} onChange={e => this.setState({ Description: e.target.value })} />
-									</div>
-									<div className='d-flex justify-content-end'>
-										<button
-											className='btn primary-btn pointer mr-3'
-											disabled={this.IsAddEventButtonDisabled === true}
-											onClick={() => this.HandleUpdateEvent()}>
-											Save Changes
-										</button>
-										<button
-											className='btn secondary-btn pointer'
-											disabled={this.IsAddEventButtonDisabled === true}
-											onClick={() => this.setState({ IsEditingEvent: false })}>
-											Cancel
-										</button>
-									</div>
-								</>
-							}
-						</div>
+				<div className='d-flex justify-content-between'>
+					<div className='d-flex flex-column justify-content-center w-100'>
 						{this.state.IsEditingEvent === false &&
-							<div className='d-flex'>
-								<i className='far fa-edit mr-3 action-icons' onClick={() => this.setState({ IsEditingEvent: true })} />
-								<i className='far fa-trash-alt action-icons' onClick={() => this.props.DeleteEvent(this.props.Event.Id)} />
+							<div className='d-flex justify-content-between'>
+								<div className='d-flex flex-column'>
+									<div className='d-flex align-items-center item-height'><span className='mr-2 font-weight-bold'>Date:</span> {this.props.Event.Date}</div>
+									<div className='d-flex align-items-center item-height mt-3'><span className='mr-2 font-weight-bold'>Description:</span> {this.props.Event.Description}</div>
+								</div>
+								<div className='d-flex'>
+									<i className='far fa-edit mr-3 action-icons' onClick={() => this.setState({ IsEditingEvent: true })} />
+									<i className='far fa-trash-alt action-icons' onClick={() => this.props.DeleteEvent(this.props.Event.Id)} />
+								</div>
 							</div>
 						}
+						{this.state.IsEditingEvent === true &&
+							<>
+								<div className='d-flex align-items-center form-group item-height'>
+									<label className='mb-0 font-weight-bold'>Date:</label>
+									<input
+										className='form-control ml-3'
+										type='date'
+										value={moment(this.state.Date).format('YYYY-MM-DD')}
+										onChange={e => this.HandleSelectDate(e.target.value)} />
+								</div>
+								<div className='d-flex align-items-center form-group item-height'>
+									<label className='mb-0 font-weight-bold'>Description:</label>
+									<input
+										className='form-control ml-3'
+										type='text'
+										value={this.state.Description}
+										onChange={e => this.setState({ Description: e.target.value })} />
+								</div>
+								<div className='d-flex justify-content-end'>
+									<button
+										className='btn primary-btn pointer mr-3'
+										disabled={this.IsEditEventButtonDisabled === true}
+										onClick={() => this.HandleUpdateEvent()}>
+										Save Changes
+									</button>
+									<button
+										className='btn secondary-btn pointer'
+										onClick={() => this.setState({ IsEditingEvent: false })}>
+										Cancel
+									</button>
+								</div>
+							</>
+						}
 					</div>
+				</div>
 			</div>
-
 		);
 	}
 }

@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     background-color: #202124;
     color: #15364d;
@@ -8,10 +9,31 @@ h1, h3 {
 .pointer {
     cursor: pointer;
 }
+.item-height {
+    min-height: 40px;
+}
+
+/* Bootstrap Overrides */
+.form-control:focus {
+    box-shadow: none;
+}
+.btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+/* Custom Styling */
 .event-calendar-container {
-    min-height: 80vh;
+    min-height: 90vh;
     border-radius: 2px;
-    background-color: white;
+    background-color: #fafafa;
+}
+.card {
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.1);
+    transition: all 0.15s ease-in-out;
+}
+.card:hover {
+    box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.1);
 }
 .events-container {
     display: flex;
@@ -21,20 +43,19 @@ h1, h3 {
 .events-subcontainer {
     width: 100%;
 }
-.item-height {
-    min-height: 40px;
-}
 .primary-btn {
     background-color: #1a73e8;
     color: white;
 }
 .secondary-btn {
-    background-color: #c7c5c4
+    background-color: #d9d9d9;
+    color: #202124;
 }
 .action-icons {
     opacity: 0.7;
+    height: fit-content;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.15s ease-in-out;
 }
 .action-icons:hover {
     opacity: 1;
