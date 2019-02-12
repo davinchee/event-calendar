@@ -48,7 +48,7 @@ export class EventDetails extends React.PureComponent<IEventDetailsProps, IEvent
 							<div className='d-flex justify-content-between'>
 								<div className='d-flex flex-column'>
 									<div className='d-flex align-items-center item-height'><span className='mr-2 font-weight-bold'>Date:</span> {this.props.Event.Date}</div>
-									<div className='d-flex align-items-center item-height mt-3'><span className='mr-2 font-weight-bold'>Description:</span> {this.props.Event.Description}</div>
+									<div className='d-flex align-items-start item-height mt-3'><span className='mr-2 font-weight-bold'>Description:</span> {this.props.Event.Description}</div>
 								</div>
 								<div className='d-flex'>
 									<i className='far fa-edit mr-3 action-icons' onClick={() => this.setState({ IsEditingEvent: true })} />
@@ -66,7 +66,7 @@ export class EventDetails extends React.PureComponent<IEventDetailsProps, IEvent
 										value={moment(this.state.Date).format('YYYY-MM-DD')}
 										onChange={e => this.HandleSelectDate(e.target.value)} />
 								</div>
-								<div className='d-flex align-items-center form-group item-height'>
+								<div className='d-flex align-items-start form-group item-height'>
 									<label className='mb-0 font-weight-bold'>Description:</label>
 									<input
 										className='form-control ml-3'
